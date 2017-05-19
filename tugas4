@@ -1,0 +1,99 @@
+#include<iostream>
+#include<string.h>
+
+using namespace std;
+
+class Buku {
+
+	protected:
+		string isbn, tgl_terbit, nama;
+		float harga, harga_sewa, denda;
+		
+	public:
+		Buku(string newIsbn, string newTglTerbit, string newNama, float newHarga){
+			isbn = newIsbn;
+			tgl_terbit = newTglTerbit;
+			nama = newNama;
+			harga = newHarga;
+			
+			if (harga >= 10000 && harga <= 100000){
+				harga_sewa = 1500;
+				denda = 500;
+			} else if (harga > 100000 && harga <= 500000){
+				harga_sewa = 5000;
+				denda = 1000;
+			} else if (harga > 500000){
+				harga_sewa = 10000;
+				denda = 2000;
+			}
+		}
+		
+		string getNama(){
+			return nama;
+		}
+		
+		float getHargaSewa(){
+			return harga_sewa;
+		}
+		
+		float getTotalDenda(int jml_terlambat){
+			return denda*jml_terlambat;
+		}
+};
+
+
+class Novel:public Buku {
+	protected:
+		string author, genre;
+		
+	public:
+		Novel(string newIsbn, string newTglTerbit, string newNama, float newHarga, string newAuthor, string newGenre):Buku(newIsbn, newTglTerbit, newNama, newHarga){
+			author = newAuthor;
+			genre = newGenre;
+		}
+};
+
+
+class Komik:public Buku {
+	protected:
+		string author, genre;
+		int volume;
+		
+	public:
+		Komik(string newIsbn, string newTglTerbit, string newNama, float newHarga, string newAuthor, string newGenre, int newVolume):Buku(newIsbn, newTglTerbit, newNama, newHarga){
+			author = newAuthor;
+			genre = newGenre;
+			volume = newVolume;
+		}
+};
+
+
+class Majalah:public Buku {
+	protected:
+		string edisi_bulan;
+		
+	public:
+		Majalah(string newIsbn, string newTglTerbit, string newNama, float newHarga, string newEdisi):Buku(newIsbn, newTglTerbit, newNama, newHarga){
+			edisi_bulan  = newEdisi;
+		}
+};
+
+
+int main(){
+	Novel novel1 = Novel("09999989383", "13/03/2017", "Curhatan Seorang Istri", 300000, "Vivit Kumalasari", "Kesehatan");
+	Novel novel2 = Novel("79878795739", "13/05/2016", "Kiamat Sudah Dekat", 50000, "Sri Wahyuni", "Rohani");
+	Komik komik1 = Komik("09090909093", "03/12/2014", "Naruto Shipudden", 75000, "Fatimah Nurul Insani", "Anime", 3);
+	Majalah majalah1 = Majalah("09343434444", "14/12/2013", "Majalah Ibu Hamil", 550000, "Sabtu");
+	
+	cout << "Nama Buku\t\tHarga\t\tQty\tSub Total" << endl;
+	cout << novel1.getNama() << "\tRp. " << novel1.getHargaSewa() << "\t2\tRp. " << novel1.getHargaSewa()*2 << endl;
+	cout << novel2.getNama() << "\tRp. " << novel2.getHargaSewa() << "\t1\tRp. " << novel2.getHargaSewa()*1 << endl;
+	cout << komik1.getNama() << "\tRp. " << komik1.getHargaSewa() << "\t3\tRp. " << komik1.getHargaSewa()*3 << endl;
+	cout << majalah1.getNama() << "\tRp. " << majalah1.getHargaSewa() << "\t1\tRp. " << majalah1.getHargaSewa()*1 << "\n\n";
+	float total = (novel1.getHargaSewa()*2) + (novel2.getHargaSewa()*1) + (komik1.getHargaSewa()*3) + (majalah1.getHargaSewa()*1);
+	float bayar = 100000;
+	cout << "\t\t\t\tTotal\t\tRp. " << total << endl;
+	cout << "\t\t\t\tPembayaran\tRp. " << bayar << endl;
+	cout << "\t\t\t\tKembalian\tRp. " << bayar - total;
+	return 0;
+}
