@@ -1,0 +1,131 @@
+#include<iostream>
+#include<string.h>
+
+using namespace std;
+
+class Buku {
+
+	protected:
+		string isbn, tgl_terbit, nama;
+		float harga, harga_sewa, denda;
+		
+	public:
+		Buku(string varIsbn, string varTgl_Terbit, string varNama, float varHarga){
+			isbn = varIsbn;
+			tgl_terbit = varTgl_Terbit;
+			nama = varNama;
+			harga = varHarga;
+			
+			if (harga >= 10000 && harga <= 100000){
+				harga_sewa = 1500;
+				denda = 500;
+			} else if (harga > 100000 && harga <= 500000){
+				harga_sewa = 5000;
+				denda = 1000;
+			} else if (harga > 500000){
+				harga_sewa = 10000;
+				denda = 2000;
+			}
+		}
+		string getIsbn(){
+			return isbn;
+		}
+		
+		string getNama(){
+			return nama;
+		}
+		
+		float getHarga_sewa(){
+			return harga_sewa;
+		}
+		
+		float getTotalDenda(int jml_terlambat){
+			return denda*jml_terlambat;
+		}
+};
+
+class Name {
+	
+	protected:
+		string nama;
+		float npm;
+		
+	public:
+		Name(string varNama,  float varNpm){
+			nama = varNama;
+			npm = varNpm;
+		}
+			string getNama(){
+			return nama;
+		}
+			float getNpm(){
+			return npm;
+		}
+		
+};
+
+class Novel:public Buku {
+	protected:
+		string pengarang, genre;
+		
+	public:
+		Novel(string varIsbn, string varTgl_Terbit, string varNama, float varHarga, string varPengarang, string varGenre):Buku(varIsbn, varTgl_Terbit, varNama, varHarga){
+			pengarang = varPengarang;
+			genre = varGenre;
+		}
+};
+
+class Komik:public Buku {
+	protected:
+		string pengarang, genre;
+		int no_volume;
+		
+	public:
+		Komik(string varIsbn, string varTgl_Terbit, string varNama, float varHarga, string varPengarang, string varGenre, int varNo_volume):Buku(varIsbn, varTgl_Terbit, varNama, varHarga){
+			pengarang = varPengarang;
+			genre = varGenre;
+			no_volume = varNo_volume;
+		}
+			string getPengarang(){
+			return pengarang;
+		}
+		
+};
+
+class Majalah:public Buku {
+	protected:
+		string edisi_bulan;
+		
+	public:
+		Majalah(string varIsbn, string varTgl_Terbit, string varNama, float varHarga, string varEdisi):Buku(varIsbn, varTgl_Terbit, varNama, varHarga){
+			edisi_bulan  = varEdisi;
+		}
+};
+
+int main(){
+	
+	Novel nvl1 = Novel("872636", "13/03/2017", "Novel ada apa dgn eang", 350000, "Wanda Driana", "Kesehatan");
+	Novel nvl2 = Novel("976251", "13/05/2016", "Narto vol 2", 60000, "Taufik Ismail", "Rohani");
+	Komik kmk1 = Komik("908372", "03/12/2014", "Narto vol 3", 80000, "Asep Zaniar Zatnika", "Anime", 3);
+	Majalah mjl = Majalah("382763", "14/12/2013", "Majalah Ibu Hamil 3", 500000, "Sabtu");
+//	Buku bku = Buku();
+	
+	
+	cout << "NAMA : " << kmk1.getPengarang() << endl;
+	cout << "------------------------------------------------------------*" << endl;
+	cout << "Nama Buku\t\tHarga\t\tQty\tSub Total" << "  " << " * " << endl;
+	cout << nvl1.getNama() << "\tRp." << " "<< nvl1.getHarga_sewa() << "\t2\tRp. " << nvl1.getHarga_sewa()*3 << "  " << " * "<<endl;
+	cout << nvl2.getNama() << "\t\tRp." << " "<< nvl2.getHarga_sewa() << "\t1\tRp. " << nvl2.getHarga_sewa()*2 << "  " << "  * "<< endl;
+	cout << kmk1.getNama() << "\t\tRp." << " "<< kmk1.getHarga_sewa() << "\t3\tRp. " << kmk1.getHarga_sewa()*4 << "  " << "  * "<< endl;
+	cout << mjl.getNama() << "\tRp." << " "<< mjl.getHarga_sewa() << "\t1\tRp. " << mjl.getHarga_sewa()*1 << "  " << "  * " << "\n\n";
+	cout << "------------------------------------------------------------*" << endl;
+	float total = (nvl1.getHarga_sewa()*3) + (nvl2.getHarga_sewa()*2) + (kmk1.getHarga_sewa()*4) + (mjl.getHarga_sewa()*1);
+	float bayar = 100000;
+	 
+	cout << "\t\t\t\tTotal\t\tRp. " << total << "  " << " * "<< endl;
+	cout << "\t\t\t\tPembayaran\tRp. " << bayar << "  " << "* "<< endl;
+	cout << "\t\t\t\tKembalian\tRp. " << bayar - total << "  " << " * "<< endl;
+	cout << "------------------------------------------------------------*" << endl;
+	
+	return 0;
+}
